@@ -3,7 +3,7 @@ namespace App\Actions;
 use App\Exceptions\InvalidRequestException;
 use App\User;
 
-class UserAccount{
+class UserAction{
 
     public function execute(array $data)
     {

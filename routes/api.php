@@ -18,8 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'account'], function () {
-    Route::post('create', [
+Route::group(['prefix' => 'v1'], function () {
+    Route::post('account', [
         'uses' => 'AccountController@create_account',
         'as' => 'Create Account'
     ]);
