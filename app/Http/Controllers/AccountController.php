@@ -18,7 +18,7 @@ class AccountController extends Controller
     public function create_account(Request $request, UserAccount $UserAccount, AccountAction $AccountAction ){
 
         $validation = Validator::make($request->all(), [
-            'full_name' => 'required',
+            'name' => 'required',
             'email' => 'required',
             'password' => 'required'
         ]);
