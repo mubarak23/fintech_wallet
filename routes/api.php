@@ -26,3 +26,16 @@ Route::group(['prefix' => 'v1'], function () {
 
 });
 
+
+Route::group(['prefix' => 'v1'], function () {
+    Route::post('transaction/credit', [
+        'uses' => 'TransactionController@process_credit_transaction',
+        'as' => 'Credit Account'
+    ]);
+
+    Route::post('transaction/debit', [
+        'uses' => 'TransactionController@process_debit_transaction',
+        'as' => 'Debit Account'
+    ]);
+
+});

@@ -26,16 +26,19 @@ class AccountController extends Controller
             return response()->json($validation->errors(), 401);
          }
          $data = $request->all();
+
          #check if user exist
          $account_exists = User::where('email', $data["email"])->exists();
          if($account_exists) return response()->json(["message" => "Account Already exists"], 400);
+
          $data['password'] = Hash::make($data['password']);
          $new_user = $UserAction->execute($data);
          $data["user_id"] = $new_user->id;
          $data["balance"] = "0.00";
-         $data["account_id"] = rand(1111111111,9999999999);
+         $account_id = rand(1111111111,9999999999);
+         $data["account_id"] = $account_id;
          $new_account = $AccountAction->execute($data);
-         $new_account["account_id"] = $data["account_id"];
+         $new_account->account_id = $account_id;
          if($new_account){
              return response()->json(['message' => 'Wallet Account Created Successfully', 'data' => $new_account], 201);
          }

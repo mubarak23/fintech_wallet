@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Actions\AccountAction;
 use App\Actions\TransactionAction;
@@ -58,7 +58,7 @@ class TransactionController extends Controller
             'purpose' => $data['purpose'],
             'amount'  => $data['amount'],
             'account_id' => $data['account_id'],
-            'reference' => '34y4y65',
+            'reference' => Str::uuid(),
             'balance_before' => $data['balance_before'],
             'balance_after' => $data['balance_before'] + $data['amount'],
             'meta' => $data['meta']
@@ -73,7 +73,7 @@ class TransactionController extends Controller
             'purpose' => $data['purpose'],
             'amount'  => $data['amount'],
             'account_id' => $data['account_id'],
-            'reference' => '34y4y65',
+            'reference' => Str::uuid(),
             'balance_before' => $data['balance_before'],
             'balance_after' => $data['balance_before'] - $data['amount'],
             'meta' => $data['meta']

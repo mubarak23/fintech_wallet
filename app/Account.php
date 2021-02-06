@@ -9,7 +9,7 @@ class Account extends Model
     //
 
     protected $fillable = [
-        'accounrt_id', 'balance', 'user_id',
+        'account_id', 'balance', 'user_id',
     ];
 
     public function user()
