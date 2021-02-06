@@ -42,4 +42,9 @@ class AccountController extends Controller
          return response()->json(['message' => 'Account Creation Failed, Try Again'], 400);
 
     }
+
+    public function get_account_balance($account_id){
+        $account = Account::where('account_id', $account_id)->get();
+           return $account->balance;
+    }
 }
