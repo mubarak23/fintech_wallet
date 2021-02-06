@@ -9,6 +9,6 @@ class Transaction extends Model
     //
 
     protected $fillable = [
-        'txn_type', 'purpose', 'amount', 'accounrt_id', 'reference', 'balance_before', 'balance_after', 'metadata'
+        'txn_type', 'purpose', 'amount', 'account_id', 'reference', 'balance_before', 'balance_after', 'metadata'
     ];
 }
