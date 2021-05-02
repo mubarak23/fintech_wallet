@@ -11,4 +11,9 @@ class Transaction extends Model
     protected $fillable = [
         'txn_type', 'purpose', 'amount', 'account_id', 'reference', 'balance_before', 'balance_after', 'metadata'
     ];
+
+    protected $casts = [
+    'balance_before' => 'float',
+    'balance_after' => 'float'
+  ];
 }

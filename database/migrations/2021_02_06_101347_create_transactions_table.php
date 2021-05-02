@@ -17,11 +17,11 @@ class CreateTransactionsTable extends Migration
             $table->bigIncrements('id');
             $table->string("txn_type", 255)->nullable();
             $table->string("purpose", 255)->nullable();
-            $table->decimal("amount", 20, 4)->nullable();
+            $table->decimal("amount", 20, 2)->nullable();
             $table->string("account_id")->nullable();
             $table->string("reference")->nullable();
-            $table->decimal("balance_before", 20, 4)->nullable();
-            $table->decimal("balance_after", 20, 4)->nullable();
+            $table->decimal("balance_before", 20, 2)->nullable();
+            $table->decimal("balance_after", 20, 2)->nullable();
             $table->longText('metadata')->nullable()->default('text');
             $table->timestamps();
         });

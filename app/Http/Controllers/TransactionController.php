@@ -28,10 +28,12 @@ class TransactionController extends Controller
         if(!$account_exist) return response()->json(["message" => "Account Does Not Exists"], 400);
          $account = Account::where("account_id", $data["account_id"])->select('balance')->first();
          $user = Account::where("account_id", $data["account_id"])->select('user_id')->first();
-         $balance = $account->sum('balance');
-         $data['balance_before'] = $balance;
+
+         $data['balance_before'] = $account->balance;
+
          $data['user_id'] = $user->user_id;
          $data["meta"] = $data["account_id"];
+
          //call create transaction method
          $update_account = $this->update_account($data);
 
@@ -78,7 +80,7 @@ class TransactionController extends Controller
             'reference' => Str::uuid(),
             'balance_before' => $data['balance_before'],
             'balance_after' => $data['balance_before'] + $data['amount'],
-            'meta' => $data['meta']
+            'metadata' => $data['meta']
         ];
         return $this->add_transaction($credit_data);
     }
@@ -93,7 +95,7 @@ class TransactionController extends Controller
             'reference' => Str::uuid(),
             'balance_before' => $data['balance_before'],
             'balance_after' => $data['balance_before'] - $data['amount'],
-            'meta' => $data['meta']
+            'meta_data' => $data['meta']
         ];
         return $this->add_transaction($debit_data);
     }
