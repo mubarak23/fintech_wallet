@@ -9,6 +9,7 @@ use App\Exceptions\InvalidRequestException;
 use Illuminate\Support\Facades\Validator;
 use App\Transaction;
 use App\Account;
+use DB;
 class TransactionController extends Controller
 {
     //
@@ -25,14 +26,16 @@ class TransactionController extends Controller
          $data = $request->all();
         $account_exist = Account::where("account_id", $data["account_id"])->exists();
         if(!$account_exist) return response()->json(["message" => "Account Does Not Exists"], 400);
-         $account = Account::where("account_id", $data["account_id"])->select('balance')->get();
+         $account = Account::where("account_id", $data["account_id"])->select('balance')->first();
          $user = Account::where("account_id", $data["account_id"])->select('user_id')->first();
          $balance = $account->sum('balance');
          $data['balance_before'] = $balance;
-         #return $data;
          $data['user_id'] = $user->user_id;
+         $data["meta"] = $data["account_id"];
          //call create transaction method
-         $this->update_account($data);
+         $update_account = $this->update_account($data);
+
+         //return $update_account;
          $credit_account = $this->credit_transaction($data);
          //send email notifucation
          if($credit_account){
@@ -106,10 +109,20 @@ class TransactionController extends Controller
     }
 
     public function update_account($data){
-        $account = Account::where("account_id", $data["account_id"])->select("balance")->first();
-        $account->balance = $data["balance"];
-        $account->save();
-        return True;
+        DB::beginTransaction();
+       try {
+        $account = Account::where("account_id", $data["account_id"])->first();
+        $account->balance = $account->balance + $data['amount'];
+        //return $account->balance;
+       $update_account =  $account->save();
+       DB::commit();
+        return $update_account;
+       }catch (\Exception $exception) {
+            DB::rollback();
+            return $exception->getMessage();
+            //throw new InvalidRequestException($exception->getMessage(), 400);
+        }
+
     }
 
 

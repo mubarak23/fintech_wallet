@@ -12,6 +12,11 @@ class Account extends Model
         'account_id', 'balance', 'user_id',
     ];
 
+    protected $casts = [
+    'balance' => 'number',
+    'account_id' => 'integer'
+];
+
     public function user()
     {
         return $this->belongsTo('App\User', 'user_id');
