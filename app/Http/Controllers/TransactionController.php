@@ -122,9 +122,22 @@ class TransactionController extends Controller
        }catch (\Exception $exception) {
             DB::rollback();
             return $exception->getMessage();
-            //throw new InvalidRequestException($exception->getMessage(), 400);
+
         }
 
+    }
+
+
+    public function debit_account($data){
+        DB::beginTransaction();
+        try{
+           $account = Account::where('account_id', $data["account_id"])->first();
+           $account->balance = $account->balance = $data["amount"];
+           $update_account = $account->save();
+        }catch(\Exception $exception){
+            DB::rollback();
+            return $exception->getMessage();
+        }
     }
 
 
