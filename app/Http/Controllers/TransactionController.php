@@ -71,6 +71,20 @@ class TransactionController extends Controller
          }
     }
 
+    public function trasanction_history(Request $request){
+           $validation = Validator::make($request->all(), [
+            'account_id' => 'required',
+            'user_id' => 'required'
+        ]);
+        if($validation->fails()){
+            return response()->json($validation->errors(), 401);
+         }
+         $data = $request->all();
+         $account_history = Transaction::where('account_id', $data['account_id'])->where( 'user_id', $data['user_id'])->paginate();
+         $account_balance = Account::where('account_id', $data['account_id'])->where('user_id', $data['user_id'])-select('balance')->first();
+         return response()->json(['message' => 'Account History', 'data' => $account_history, 'account_balance' => $account_balance->balance], 200);
+    }
+
     public function credit_transaction($data){
         $credit_data = [
             'txn_type' => 'Credit',

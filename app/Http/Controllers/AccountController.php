@@ -50,4 +50,8 @@ class AccountController extends Controller
         $account = Account::where('account_id', $account_id)->get();
            return $account->balance;
     }
+
+    public function accounnt_history(Request $request){
+        return "OK";
+    }
 }
